@@ -1,0 +1,31 @@
+---
+output: github_document
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# callthat
+
+<!-- badges: start -->
+<!-- badges: end -->
+
+`callthat` is meant for `plumber` API developers who are wrapping their APIs inside an R package.  This package enables the testing of the API's endpoints within the `testthat` framework.  This allows the R Checks to also confirm that the endpoints still behave as expected.  The ultimate goal of `callthat` is to ensure for the package's automated testing confirms that the APIs still work even if the developer did not run the package's test locally.
+
+## Installation
+
+The development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("edgararuiz/callthat")
+```
+

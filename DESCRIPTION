@@ -1,0 +1,17 @@
+Package: callthat
+Title: Test plumber APIs inside an R package
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Edgar",
+           family = "Ruiz",
+           role = c("aut", "cre"),
+           email = "edgar@rstudio.com"
+           )
+Description: Enables testing the actual plumber API endpoints within the testthat
+    package framework. The main goal is allow automated tests run against the
+    package within its CI/CD integration (such as GitHub Actions).  
+License: MIT
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.1
