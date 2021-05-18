@@ -2,20 +2,18 @@
 #' @importFrom callr r_session r_safe
 #' @importFrom httr GET
 
-#' @export
-callthat_local_api <- function(port, host, r_session, docs) {
+callthat_local_connection <- function(port, host, r_session, docs) {
   structure(
     list(
-      host = host,
-      port = port,
+      url = paste0(host, ":", port),
       r_session = r_session,
       docs = docs
     ),
-    class = "callthat_local_api"
+    class = c("callthat_connection", "callthat_local_connection")
   )
 }
 
-setOldClass("callthat_local_api")
+setOldClass("callthat_local_connection")
 
 #' @export
 callthat_local_running <- function(x, ...) {
@@ -27,7 +25,7 @@ callthat_local_running <- function(x, ...) {
 }
 
 #' @export
-print.callthat_local_api <- function(x, ...) {
+print.callthat_local_connection <- function(x, ...) {
   if (callthat_local_running(x)) {
     docs_msg <- NULL
     if(x$docs) docs_msg <- paste0("\nSwagger page: ", x$host, ":", x$port, "/__docs__/")
@@ -61,7 +59,7 @@ callthat_local_start <- function(api_file = "plumber.R",
     },
     args = list(ap = api_path, prt = port, docs = docs)
   )
-  callthat_local_api(
+  callthat_local_connection(
     host = host,
     port = port,
     r_session = rs,
