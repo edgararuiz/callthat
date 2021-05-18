@@ -39,7 +39,7 @@ print.callthat_api <- function(x, ...) {
 
 #' @export
 callthat_api_start <- function(api_file = "plumber.R",
-                               port = 1212,
+                               port = 6556,
                                root_folder = system.file("sample-api", package = "callthat")) {
   api_path <- paste(root_folder, api_file, sep = "/")
   rs <- r_session$new()
@@ -49,6 +49,12 @@ callthat_api_start <- function(api_file = "plumber.R",
   },
   args = list(ap = api_path, prt = port)
   )
+  # add error capture here
+  rs_error <- capture.output(rs$read_error())
+  if(rs_error != "") {
+    stop(rs_error)
+  }
+
   callthat_api(
     port = port,
     r_session = rs

@@ -6,13 +6,13 @@
 <!-- badges: start -->
 <!-- badges: end -->
 
-`callthat` is meant for `plumber` API developers who are wrapping their
-APIs inside an R package. This package enables the testing of the API’s
-endpoints within the `testthat` framework. This allows the R Checks to
-also confirm that the endpoints still behave as expected. The ultimate
-goal of `callthat` is to ensure for the package’s automated testing
-confirms that the APIs still work even if the developer did not run the
-package’s test locally.
+`callthat` is meant for `plumber` API developers who plan to distribute
+their APIs inside an R package. This package enables the testing of the
+API’s endpoints within the `testthat` framework. This allows the R
+Checks to also confirm that the endpoints still behave as expected. The
+ultimate goal of `callthat` is to ensure for the package’s automated
+testing confirms that the APIs still work even if the developer did not
+run the package’s test locally.
 
 ## Installation
 
