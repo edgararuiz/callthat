@@ -3,7 +3,7 @@ callthat_api_get <- function(api_session, endpoint, query = NULL, ...) UseMethod
 
 #' @export
 callthat_api_get.callthat_local_api <- function(api_session, endpoint, query = NULL, ...)  {
-  url_path <- paste0("http://127.0.0.1:", api_session$port)
+  url_path <- paste0(api_session$host, ":", api_session$port)
   r_safe(function() 1)
   r_safe(function(ur, enp, qry)
     httr::GET(url = ur, path = enp, query = qry),

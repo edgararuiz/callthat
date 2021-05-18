@@ -3,11 +3,13 @@
 #' @importFrom httr GET
 
 #' @export
-callthat_local_api <- function(port, r_session) {
+callthat_local_api <- function(port, host, r_session, docs) {
   structure(
     list(
+      host = host,
       port = port,
-      r_session = r_session
+      r_session = r_session,
+      docs = docs
     ),
     class = "callthat_local_api"
   )
@@ -27,9 +29,12 @@ callthat_local_running <- function(x, ...) {
 #' @export
 print.callthat_local_api <- function(x, ...) {
   if (callthat_local_running(x)) {
+    docs_msg <- NULL
+    if(x$docs) docs_msg <- paste0("\nSwagger page: ", x$host, ":", x$port, "/__docs__/")
     cat(paste0(
       "API is running on port ", x$port,
-      " inside PID ", x$r_session$get_pid()
+      " inside PID ", x$r_session$get_pid(),
+      docs_msg
     ))
   } else {
     cat("API is not running")
@@ -39,19 +44,28 @@ print.callthat_local_api <- function(x, ...) {
 
 #' @export
 callthat_local_start <- function(api_file = "plumber.R",
-                               port = 6556,
-                               root_folder = system.file("sample-api", package = "callthat")) {
+                                 host = "http://127.0.0.1",
+                                 port = 6556,
+                                 root_folder = system.file("sample-api", package = "callthat"),
+                                 docs = TRUE
+                                 ) {
+  if(root_folder == system.file("sample-api", package = "callthat") &&
+     api_file == "plumber.R") {
+    print("Starting callthat's sample API")
+  }
   api_path <- paste(root_folder, api_file, sep = "/")
   rs <- r_session$new()
-  rs$call(function(ap, prt) {
+  rs$call(function(ap, prt, docs) {
     ar <- plumber::plumb(ap)
-    plumber::pr_run(ar, port = prt, docs = FALSE)
+    plumber::pr_run(ar, port = prt, docs = docs)
     },
-    args = list(ap = api_path, prt = port)
+    args = list(ap = api_path, prt = port, docs = docs)
   )
   callthat_local_api(
+    host = host,
     port = port,
-    r_session = rs
+    r_session = rs,
+    docs = docs
   )
 }
 
