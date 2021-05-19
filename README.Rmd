@@ -31,6 +31,8 @@ devtools::install_github("edgararuiz/callthat")
 
 ## Usage
 
+### Local
+
 ```{r}
 library(callthat)
 
@@ -43,12 +45,15 @@ class(my_api)
 callthat_local_running(my_api)
 
 callthat_api_get(my_api, "data")
+```
 
+### Generic connection
+
+```{r}
 remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
 
 remote_api
 
 callthat_api_get(remote_api, "summary", list("state" = "LA"))
-
 ```
 

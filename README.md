@@ -25,6 +25,8 @@ devtools::install_github("edgararuiz/callthat")
 
 ## Usage
 
+### Local
+
 ``` r
 library(callthat)
 
@@ -32,34 +34,34 @@ my_api <- callthat_local_start()
 #> [1] "Starting callthat's sample API"
 
 my_api
-#> API is running on port  inside PID 52178
-#> Swagger page: :/__docs__/
+#> API is running on http://127.0.0.1:6556 inside an R session on PID 54777
+#> Swagger page: http://127.0.0.1:6556/__docs__/
 
 class(my_api)
-#> [1] "callthat_connection"       "callthat_local_connection"
+#> [1] "callthat_local_connection" "callthat_connection"
 
 callthat_local_running(my_api)
 #> [1] TRUE
 
 callthat_api_get(my_api, "data")
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-19 00:09
+#>   Date: 2021-05-19 14:05
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
+```
 
+### Generic connection
+
+``` r
 remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
 
 remote_api
-#> $url
-#> [1] "https://colorado.rstudio.com/rsc/access-to-care/api"
-#> 
-#> attr(,"class")
-#> [1] "callthat_connection"
+#> Connection to API located in: https://colorado.rstudio.com/rsc/access-to-care/api
 
 callthat_api_get(remote_api, "summary", list("state" = "LA"))
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=LA]
-#>   Date: 2021-05-19 00:09
+#>   Date: 2021-05-19 14:05
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 109 B
