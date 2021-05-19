@@ -34,7 +34,7 @@ my_api <- callthat_local_start()
 #> [1] "Starting callthat's sample API"
 
 my_api
-#> API is running on http://127.0.0.1:6556 inside an R session on PID 54777
+#> API is running on http://127.0.0.1:6556 inside an R session on PID 55754
 #> Swagger page: http://127.0.0.1:6556/__docs__/
 
 class(my_api)
@@ -45,10 +45,29 @@ callthat_local_running(my_api)
 
 callthat_api_get(my_api, "data")
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-19 14:05
+#>   Date: 2021-05-19 14:55
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
+```
+
+### RStudio Connect
+
+``` r
+rsc_api <- callthat_rsc_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
+
+rsc_api
+#> RStudio Connect API:  https://colorado.rstudio.com/rsc/access-to-care/api
+#> API Key: None set
+```
+
+``` r
+callthat_api_get(rsc_api, "summary", list("state" = "LA"))
+#> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=LA]
+#>   Date: 2021-05-19 14:55
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 109 B
 ```
 
 ### Generic connection
@@ -61,7 +80,7 @@ remote_api
 
 callthat_api_get(remote_api, "summary", list("state" = "LA"))
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=LA]
-#>   Date: 2021-05-19 14:05
+#>   Date: 2021-05-19 14:55
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 109 B

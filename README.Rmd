@@ -47,6 +47,21 @@ callthat_local_running(my_api)
 callthat_api_get(my_api, "data")
 ```
 
+### RStudio Connect
+
+```{r}
+rsc_api <- callthat_rsc_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
+
+rsc_api
+```
+
+```{r}
+callthat_api_get(rsc_api, "summary", list("state" = "LA"))
+```
+
+
+
+
 ### Generic connection
 
 ```{r}
