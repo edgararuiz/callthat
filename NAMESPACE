@@ -2,6 +2,7 @@
 
 S3method(callthat_api_get,callthat_connection)
 S3method(callthat_api_get,default)
+S3method(print,callthat_connection)
 S3method(print,callthat_local_connection)
 export(callthat_api_get)
 export(callthat_connection)

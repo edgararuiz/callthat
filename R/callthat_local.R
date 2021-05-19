@@ -9,7 +9,7 @@ callthat_local_connection <- function(port, host, r_session, docs) {
       r_session = r_session,
       docs = docs
     ),
-    class = c("callthat_connection", "callthat_local_connection")
+    class = c("callthat_local_connection", "callthat_connection")
   )
 }
 
@@ -28,10 +28,10 @@ callthat_local_running <- function(x, ...) {
 print.callthat_local_connection <- function(x, ...) {
   if (callthat_local_running(x)) {
     docs_msg <- NULL
-    if(x$docs) docs_msg <- paste0("\nSwagger page: ", x$host, ":", x$port, "/__docs__/")
+    if(x$docs) docs_msg <- paste0("\nSwagger page: ", x$url, "/__docs__/")
     cat(paste0(
-      "API is running on port ", x$port,
-      " inside PID ", x$r_session$get_pid(),
+      "API is running on ", x$url,
+      " inside an R session on PID ", x$r_session$get_pid(),
       docs_msg
     ))
   } else {

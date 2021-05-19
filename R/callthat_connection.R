@@ -9,3 +9,10 @@ callthat_connection <- function(url, ...) {
 }
 
 setOldClass("callthat_connection")
+
+#' @export
+print.callthat_connection <- function(x, ...) {
+  cat(
+    paste0("Connection to API located in: ", x$url)
+  )
+}
