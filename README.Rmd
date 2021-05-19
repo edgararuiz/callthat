@@ -29,3 +29,26 @@ The development version from [GitHub](https://github.com/) with:
 devtools::install_github("edgararuiz/callthat")
 ```
 
+## Usage
+
+```{r}
+library(callthat)
+
+my_api <- callthat_local_start()
+
+my_api
+
+class(my_api)
+
+callthat_local_running(my_api)
+
+callthat_api_get(my_api, "data")
+
+remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
+
+remote_api
+
+callthat_api_get(remote_api, "summary", list("state" = "LA"))
+
+```
+
