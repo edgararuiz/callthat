@@ -34,7 +34,7 @@ my_api <- callthat_local_start()
 #> [1] "Starting callthat's sample API"
 
 my_api
-#> API is running on http://127.0.0.1:6556 inside an R session on PID 55754
+#> API is running on http://127.0.0.1:6556 inside an R session on PID 62246
 #> Swagger page: http://127.0.0.1:6556/__docs__/
 
 class(my_api)
@@ -45,7 +45,7 @@ callthat_local_running(my_api)
 
 callthat_api_get(my_api, "data")
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-19 14:55
+#>   Date: 2021-05-20 13:38
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -62,12 +62,12 @@ rsc_api
 ```
 
 ``` r
-callthat_api_get(rsc_api, "summary", list("state" = "LA"))
-#> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=LA]
-#>   Date: 2021-05-19 14:55
+callthat_api_get(rsc_api, "summary", list("state" = "CA"))
+#> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
+#>   Date: 2021-05-20 13:38
 #>   Status: 200
 #>   Content-Type: application/json
-#>   Size: 109 B
+#>   Size: 111 B
 ```
 
 ### Generic connection
@@ -77,11 +77,31 @@ remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-ca
 
 remote_api
 #> Connection to API located in: https://colorado.rstudio.com/rsc/access-to-care/api
+```
 
-callthat_api_get(remote_api, "summary", list("state" = "LA"))
-#> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=LA]
-#>   Date: 2021-05-19 14:55
-#>   Status: 200
-#>   Content-Type: application/json
-#>   Size: 109 B
+``` r
+la_summary <- callthat_api_get(remote_api, "summary", list("state" = "LA"))
+
+httr::content(la_summary)
+#> [[1]]
+#> [[1]]$state
+#> [1] "LA"
+#> 
+#> [[1]]$hospitals
+#> [1] 90
+#> 
+#> [[1]]$population
+#> [1] 4670724
+#> 
+#> [[1]]$under
+#> [1] 1
+#> 
+#> [[1]]$counties
+#> [1] 64
+#> 
+#> [[1]]$state_id
+#> [1] 19
+#> 
+#> [[1]]$full
+#> [1] "Louisiana"
 ```

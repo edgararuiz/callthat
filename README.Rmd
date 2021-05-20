@@ -56,11 +56,8 @@ rsc_api
 ```
 
 ```{r}
-callthat_api_get(rsc_api, "summary", list("state" = "LA"))
+callthat_api_get(rsc_api, "summary", list("state" = "CA"))
 ```
-
-
-
 
 ### Generic connection
 
@@ -68,7 +65,12 @@ callthat_api_get(rsc_api, "summary", list("state" = "LA"))
 remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
 
 remote_api
+```
 
-callthat_api_get(remote_api, "summary", list("state" = "LA"))
+
+```{r}
+la_summary <- callthat_api_get(remote_api, "summary", list("state" = "LA"))
+
+httr::content(la_summary)
 ```
 
