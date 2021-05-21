@@ -31,6 +31,12 @@ devtools::install_github("edgararuiz/callthat")
 
 ## Usage
 
+```{r}
+library(magrittr)
+library(httr)
+```
+
+
 ### Local
 
 ```{r}
@@ -58,6 +64,20 @@ rsc_api
 ```{r}
 callthat_api_get(rsc_api, "summary", list("state" = "CA"))
 ```
+
+### Secured API inside RStudio Connect 
+
+```{r}
+secured_api <- callthat_rsc_connection(url = "https://colorado.rstudio.com/rsc/callthat/testapi",
+                                       key = Sys.getenv("CONNECT_API_KEY"))
+
+secured_api
+```
+
+```{r}
+callthat_api_get(secured_api, "data") 
+```
+
 
 ### Generic connection
 

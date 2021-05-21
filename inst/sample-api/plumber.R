@@ -1,8 +1,18 @@
 library(plumber)
-# Notice that I'm loading the packagedapis package,
-# this means that the package needs to be Installed
-# before testing the API
-library(packagedapis)
+
+show_data <- function() {
+  datasets::mtcars
+}
+
+show_model <- function() {
+  model <- stats::lm(mpg ~ wt, data = datasets::mtcars)
+  summary(model)$coefficients
+}
+
+get_prediction <- function(x) {
+  model <- stats::lm(mpg ~ wt, data = datasets::mtcars)
+  stats::predict(model, newdata = data.frame(wt = x))
+}
 
 #* Returns mtcars data
 #* @get /data

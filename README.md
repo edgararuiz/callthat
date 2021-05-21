@@ -25,6 +25,11 @@ devtools::install_github("edgararuiz/callthat")
 
 ## Usage
 
+``` r
+library(magrittr)
+library(httr)
+```
+
 ### Local
 
 ``` r
@@ -34,7 +39,7 @@ my_api <- callthat_local_start()
 #> [1] "Starting callthat's sample API"
 
 my_api
-#> API is running on http://127.0.0.1:6556 inside an R session on PID 62246
+#> API is running on http://127.0.0.1:6556 inside an R session on PID 75098
 #> Swagger page: http://127.0.0.1:6556/__docs__/
 
 class(my_api)
@@ -45,7 +50,7 @@ callthat_local_running(my_api)
 
 callthat_api_get(my_api, "data")
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-20 13:38
+#>   Date: 2021-05-21 16:44
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -64,10 +69,30 @@ rsc_api
 ``` r
 callthat_api_get(rsc_api, "summary", list("state" = "CA"))
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
-#>   Date: 2021-05-20 13:38
+#>   Date: 2021-05-21 16:44
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 111 B
+```
+
+### Secured API inside RStudio Connect
+
+``` r
+secured_api <- callthat_rsc_connection(url = "https://colorado.rstudio.com/rsc/callthat/testapi",
+                                       key = Sys.getenv("CONNECT_API_KEY"))
+
+secured_api
+#> RStudio Connect API:  https://colorado.rstudio.com/rsc/callthat/testapi
+#> API Key: XXXXXXXXXXXXXX
+```
+
+``` r
+callthat_api_get(secured_api, "data") 
+#> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
+#>   Date: 2021-05-21 16:45
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 4.15 kB
 ```
 
 ### Generic connection
