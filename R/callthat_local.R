@@ -1,7 +1,3 @@
-#' @importFrom plumber plumb pr_run
-#' @importFrom callr r_session r_safe
-#' @importFrom httr GET
-
 callthat_local_connection <- function(port, host, r_session, docs) {
   structure(
     list(
@@ -44,10 +40,10 @@ print.callthat_local_connection <- function(x, ...) {
 callthat_local_start <- function(api_file = "plumber.R",
                                  host = "http://127.0.0.1",
                                  port = 6556,
-                                 root_folder = system.file("sample-api", package = "callthat"),
+                                 root_folder = system.file("plumber/sample-api", package = "callthat"),
                                  docs = TRUE
                                  ) {
-  if(root_folder == system.file("sample-api", package = "callthat") &&
+  if(root_folder == system.file("plumber/sample-api", package = "callthat") &&
      api_file == "plumber.R") {
     print("Starting callthat's sample API")
   }
