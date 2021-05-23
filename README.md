@@ -7,6 +7,8 @@
 
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![Codecov test
+coverage](https://codecov.io/gh/edgararuiz/callthat/branch/master/graph/badge.svg)](https://codecov.io/gh/edgararuiz/callthat?branch=master)
 <!-- badges: end -->
 
 `callthat` is meant for `plumber` API developers who plan to distribute
@@ -34,13 +36,14 @@ devtools::install_github("edgararuiz/callthat")
 library(callthat)
 
 my_api <- callthat_plumber_start()
-#> [1] "Starting callthat's sample API"
+#> 
+#> Starting callthat's sample API
 ```
 
 ``` r
 callthat_api_get(my_api, "data") 
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-23 16:28
+#>   Date: 2021-05-23 17:27
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -61,14 +64,24 @@ test_that("data endpoint works", {
   expect_equal(names(content(get_data)[[1]])[1], "mpg")
   callthat_plumber_stop(test_api)
 })
-#> [1] "Starting callthat's sample API"
-#> Test passed 😸
+#> 
+#> Starting callthat's sample API── Error (<text>:6:3): data endpoint works ─────────────────────────────────────
+#> Error: Failed to connect to 127.0.0.1 port 9999: Connection refused
+#> Backtrace:
+#>   1. callthat::callthat_api_get(test_api, "data")
+#>   2. callthat:::callthat_api_get.callthat_connection(test_api, "data") R/callthat_api_get.R:4:2
+#>   4. callthat:::callthat_api.callthat_connection(...) R/callthat_api.R:4:2
+#>   5. callthat:::api_call(...) R/callthat_api.R:10:2
+#>   6. httr::GET(url = url_path, query = request, header_obj, ...) R/callthat_api.R:46:2
+#>   7. httr:::request_perform(req, hu$handle$handle)
+#>   9. httr:::request_fetch.write_memory(req$output, req$url, handle)
+#>  10. curl::curl_fetch_memory(url, handle = handle)
 ```
 
 ``` r
 callthat_api_put(my_api, "predict", body = list(weight = 2))
 #> Response [http://127.0.0.1:6556/predict]
-#>   Date: 2021-05-23 16:28
+#>   Date: 2021-05-23 17:27
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 2 B
@@ -87,7 +100,7 @@ rsc_api
 ``` r
 callthat_api_get(rsc_api, "summary", list("state" = "CA")) 
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
-#>   Date: 2021-05-23 16:28
+#>   Date: 2021-05-23 17:27
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 111 B
@@ -107,7 +120,7 @@ secured_api
 ``` r
 callthat_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
-#>   Date: 2021-05-23 16:29
+#>   Date: 2021-05-23 17:27
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -116,7 +129,7 @@ callthat_api_get(secured_api, "data")
 ``` r
 callthat_api_post(secured_api, "sum", list(a = 2, b = 2))
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/sum]
-#>   Date: 2021-05-23 16:29
+#>   Date: 2021-05-23 17:27
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 2 B
@@ -134,7 +147,7 @@ generic_api
 ``` r
 callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
 #> Response [http://httpbin.org/post]
-#>   Date: 2021-05-23 16:29
+#>   Date: 2021-05-23 17:27
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 472 B

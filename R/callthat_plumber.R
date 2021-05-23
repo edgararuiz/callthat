@@ -45,7 +45,7 @@ callthat_plumber_start <- function(api_file = "plumber.R",
                                  ) {
   if(root_folder == system.file("plumber/sample-api", package = "callthat") &&
      api_file == "plumber.R") {
-    print("Starting callthat's sample API")
+    cat("\nStarting callthat's sample API")
   }
   api_path <- paste(root_folder, api_file, sep = "/")
   rs <- r_session$new()

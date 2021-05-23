@@ -2,7 +2,6 @@
 
 S3method(callthat_api,callthat_connection)
 S3method(callthat_api,callthat_rsc_connection)
-S3method(callthat_api,default)
 S3method(callthat_api_get,callthat_connection)
 S3method(callthat_api_post,callthat_connection)
 S3method(callthat_api_put,callthat_connection)
