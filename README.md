@@ -37,16 +37,13 @@ library(callthat)
 
 my_api <- callthat_plumber_start()
 #> [1] "Starting callthat's sample API"
-
-print(my_api$r_session$read_error_lines())
-#> character(0)
 ```
 
 ``` r
 my_api %>% 
   callthat_api_get("data") 
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-23 14:54
+#>   Date: 2021-05-23 15:47
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -56,7 +53,7 @@ my_api %>%
 my_api %>% 
   callthat_api_get("predict", query = list(weight = 2)) 
 #> Response [http://127.0.0.1:6556/predict?weight=2]
-#>   Date: 2021-05-23 14:54
+#>   Date: 2021-05-23 15:47
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 9 B
@@ -66,7 +63,7 @@ my_api %>%
 my_api %>% 
   callthat_api_post("predict", body = list(weight = 2)) 
 #> Response [http://127.0.0.1:6556/predict]
-#>   Date: 2021-05-23 14:54
+#>   Date: 2021-05-23 15:47
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 2 B
@@ -123,7 +120,7 @@ secured_api
 ``` r
 callthat_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
-#>   Date: 2021-05-23 14:54
+#>   Date: 2021-05-23 15:47
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -147,7 +144,7 @@ generic_api
 ``` r
 callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
 #> Response [http://httpbin.org/post]
-#>   Date: 2021-05-23 14:54
+#>   Date: 2021-05-23 15:47
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 472 B

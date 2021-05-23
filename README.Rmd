@@ -44,7 +44,6 @@ library(callthat)
 
 my_api <- callthat_plumber_start()
 
-print(my_api$r_session$read_error_lines())
 ```
 
 
