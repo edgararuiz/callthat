@@ -35,25 +35,41 @@ library(httr)
 ``` r
 library(callthat)
 
-my_api <- callthat_local_start()
+my_api <- callthat_plumber_start()
 #> [1] "Starting callthat's sample API"
 
-my_api
-#> API is running on http://127.0.0.1:6556 inside an R session on PID 75098
-#> Swagger page: http://127.0.0.1:6556/__docs__/
+print(my_api$r_session$read_error_lines())
+#> character(0)
+```
 
-class(my_api)
-#> [1] "callthat_local_connection" "callthat_connection"
-
-callthat_local_running(my_api)
-#> [1] TRUE
-
-callthat_api_get(my_api, "data")
+``` r
+my_api %>% 
+  callthat_api_get("data") 
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-21 16:44
+#>   Date: 2021-05-23 14:54
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
+```
+
+``` r
+my_api %>% 
+  callthat_api_get("predict", query = list(weight = 2)) 
+#> Response [http://127.0.0.1:6556/predict?weight=2]
+#>   Date: 2021-05-23 14:54
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 9 B
+```
+
+``` r
+my_api %>% 
+  callthat_api_post("predict", body = list(weight = 2)) 
+#> Response [http://127.0.0.1:6556/predict]
+#>   Date: 2021-05-23 14:54
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 2 B
 ```
 
 ### RStudio Connect
@@ -67,12 +83,30 @@ rsc_api
 ```
 
 ``` r
-callthat_api_get(rsc_api, "summary", list("state" = "CA"))
-#> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
-#>   Date: 2021-05-21 16:44
-#>   Status: 200
-#>   Content-Type: application/json
-#>   Size: 111 B
+rsc_api %>% 
+  callthat_api_get("summary", list("state" = "CA")) %>% 
+  content()
+#> [[1]]
+#> [[1]]$state
+#> [1] "CA"
+#> 
+#> [[1]]$hospitals
+#> [1] 323
+#> 
+#> [[1]]$population
+#> [1] 39144818
+#> 
+#> [[1]]$under
+#> [1] 4
+#> 
+#> [[1]]$counties
+#> [1] 58
+#> 
+#> [[1]]$state_id
+#> [1] 5
+#> 
+#> [[1]]$full
+#> [1] "California"
 ```
 
 ### Secured API inside RStudio Connect
@@ -89,13 +123,46 @@ secured_api
 ``` r
 callthat_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
-#>   Date: 2021-05-21 16:45
+#>   Date: 2021-05-23 14:54
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
 ```
 
+``` r
+callthat_api_post(secured_api, "sum", list(a = 2, b = 2)) %>% 
+  content("parsed")
+#> list()
+```
+
 ### Generic connection
+
+``` r
+generic_api <- callthat_connection("http://httpbin.org")
+
+generic_api
+#> Connection to API located in: http://httpbin.org
+```
+
+``` r
+callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
+#> Response [http://httpbin.org/post]
+#>   Date: 2021-05-23 14:54
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 472 B
+#> {
+#>   "args": {}, 
+#>   "data": "A simple text", 
+#>   "files": {}, 
+#>   "form": {}, 
+#>   "headers": {
+#>     "Accept": "application/json, text/xml, application/xml, */*", 
+#>     "Accept-Encoding": "deflate, gzip", 
+#>     "Content-Length": "13", 
+#>     "Host": "httpbin.org", 
+#> ...
+```
 
 ``` r
 remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")

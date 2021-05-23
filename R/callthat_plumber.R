@@ -61,7 +61,6 @@ callthat_plumber_start <- function(api_file = "plumber.R",
     r_session = rs,
     docs = docs
   )
-  Sys.sleep(1)
 }
 
 #' @export

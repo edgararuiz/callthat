@@ -42,16 +42,29 @@ library(httr)
 ```{r}
 library(callthat)
 
-my_api <- callthat_local_start()
+my_api <- callthat_plumber_start()
 
-my_api
-
-class(my_api)
-
-callthat_local_running(my_api)
-
-callthat_api_get(my_api, "data")
+print(my_api$r_session$read_error_lines())
 ```
+
+
+```{r}
+my_api %>% 
+  callthat_api_get("data") 
+```
+
+
+
+```{r}
+my_api %>% 
+  callthat_api_get("predict", query = list(weight = 2)) 
+```
+
+```{r}
+my_api %>% 
+  callthat_api_post("predict", body = list(weight = 2)) 
+```
+
 
 ### RStudio Connect
 
@@ -62,7 +75,9 @@ rsc_api
 ```
 
 ```{r}
-callthat_api_get(rsc_api, "summary", list("state" = "CA"))
+rsc_api %>% 
+  callthat_api_get("summary", list("state" = "CA")) %>% 
+  content()
 ```
 
 ### Secured API inside RStudio Connect 
@@ -78,8 +93,24 @@ secured_api
 callthat_api_get(secured_api, "data") 
 ```
 
+```{r}
+callthat_api_post(secured_api, "sum", list(a = 2, b = 2)) %>% 
+  content("parsed")
+```
+
 
 ### Generic connection
+
+```{r}
+generic_api <- callthat_connection("http://httpbin.org")
+
+generic_api
+```
+
+```{r}
+callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
+```
+
 
 ```{r}
 remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
