@@ -4,6 +4,9 @@
 # callthat
 
 <!-- badges: start -->
+
+[![Lifecycle:
+experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 `callthat` is meant for `plumber` API developers who plan to distribute
@@ -37,7 +40,7 @@ my_api <- callthat_plumber_start()
 ``` r
 callthat_api_get(my_api, "data") 
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-23 16:14
+#>   Date: 2021-05-23 16:28
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -59,13 +62,13 @@ test_that("data endpoint works", {
   callthat_plumber_stop(test_api)
 })
 #> [1] "Starting callthat's sample API"
-#> Test passed 🎊
+#> Test passed 😸
 ```
 
 ``` r
 callthat_api_put(my_api, "predict", body = list(weight = 2))
 #> Response [http://127.0.0.1:6556/predict]
-#>   Date: 2021-05-23 16:14
+#>   Date: 2021-05-23 16:28
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 2 B
@@ -84,7 +87,7 @@ rsc_api
 ``` r
 callthat_api_get(rsc_api, "summary", list("state" = "CA")) 
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
-#>   Date: 2021-05-23 16:14
+#>   Date: 2021-05-23 16:28
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 111 B
@@ -104,7 +107,7 @@ secured_api
 ``` r
 callthat_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
-#>   Date: 2021-05-23 16:14
+#>   Date: 2021-05-23 16:29
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -113,7 +116,7 @@ callthat_api_get(secured_api, "data")
 ``` r
 callthat_api_post(secured_api, "sum", list(a = 2, b = 2))
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/sum]
-#>   Date: 2021-05-23 16:14
+#>   Date: 2021-05-23 16:29
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 2 B
@@ -131,7 +134,7 @@ generic_api
 ``` r
 callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
 #> Response [http://httpbin.org/post]
-#>   Date: 2021-05-23 16:14
+#>   Date: 2021-05-23 16:29
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 472 B
