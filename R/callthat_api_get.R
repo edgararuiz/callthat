@@ -1,12 +1,12 @@
 #' @export
 callthat_api_get <- function(api_connection, endpoint, query = NULL,
-                             headers = list(),  eval_query = FALSE, ...) {
+                             headers = list(), ...) {
   UseMethod("callthat_api_get")
 }
 
 #' @export
 callthat_api_get.callthat_connection <- function(api_connection, endpoint, query = NULL,
-                                                 headers = list(),  eval_query = FALSE, ...)  {
+                                                 headers = list(), ...)  {
   vars <- enexprs(...)
   url_path <- paste0(api_connection$url, "/",  endpoint)
   header_obj <- do.call(add_headers, headers)
@@ -20,7 +20,7 @@ callthat_api_get.callthat_connection <- function(api_connection, endpoint, query
 
 #' @export
 callthat_api_get.callthat_rsc_connection <- function(api_connection, endpoint, query = NULL,
-                                                     headers = list(),  eval_query = FALSE, ...)  {
+                                                     headers = list(), ...)  {
 
   vars <- enexpr(...)
 
