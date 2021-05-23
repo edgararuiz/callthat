@@ -25,11 +25,6 @@ devtools::install_github("edgararuiz/callthat")
 
 ## Usage
 
-``` r
-library(magrittr)
-library(httr)
-```
-
 ### Local
 
 ``` r
@@ -40,30 +35,37 @@ my_api <- callthat_plumber_start()
 ```
 
 ``` r
-my_api %>% 
-  callthat_api_get("data") 
+callthat_api_get(my_api, "data") 
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-23 15:47
+#>   Date: 2021-05-23 16:14
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
 ```
 
+### Using inside `testthat`
+
 ``` r
-my_api %>% 
-  callthat_api_get("predict", query = list(weight = 2)) 
-#> Response [http://127.0.0.1:6556/predict?weight=2]
-#>   Date: 2021-05-23 15:47
-#>   Status: 200
-#>   Content-Type: application/json
-#>   Size: 9 B
+library(testthat)
+library(httr)
+
+test_that("data endpoint works", {
+  test_api <- callthat_plumber_start(port = 9999)
+  get_data <- callthat_api_get(test_api, "data") 
+  # Test that the request was sucessfull
+  expect_equal(get_data$status_code, 200)
+  # Confirm that the content of the response is as expected 
+  expect_equal(names(content(get_data)[[1]])[1], "mpg")
+  callthat_plumber_stop(test_api)
+})
+#> [1] "Starting callthat's sample API"
+#> Test passed 🎊
 ```
 
 ``` r
-my_api %>% 
-  callthat_api_post("predict", body = list(weight = 2)) 
+callthat_api_put(my_api, "predict", body = list(weight = 2))
 #> Response [http://127.0.0.1:6556/predict]
-#>   Date: 2021-05-23 15:47
+#>   Date: 2021-05-23 16:14
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 2 B
@@ -80,30 +82,12 @@ rsc_api
 ```
 
 ``` r
-rsc_api %>% 
-  callthat_api_get("summary", list("state" = "CA")) %>% 
-  content()
-#> [[1]]
-#> [[1]]$state
-#> [1] "CA"
-#> 
-#> [[1]]$hospitals
-#> [1] 323
-#> 
-#> [[1]]$population
-#> [1] 39144818
-#> 
-#> [[1]]$under
-#> [1] 4
-#> 
-#> [[1]]$counties
-#> [1] 58
-#> 
-#> [[1]]$state_id
-#> [1] 5
-#> 
-#> [[1]]$full
-#> [1] "California"
+callthat_api_get(rsc_api, "summary", list("state" = "CA")) 
+#> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
+#>   Date: 2021-05-23 16:14
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 111 B
 ```
 
 ### Secured API inside RStudio Connect
@@ -120,16 +104,19 @@ secured_api
 ``` r
 callthat_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
-#>   Date: 2021-05-23 15:47
+#>   Date: 2021-05-23 16:14
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
 ```
 
 ``` r
-callthat_api_post(secured_api, "sum", list(a = 2, b = 2)) %>% 
-  content("parsed")
-#> list()
+callthat_api_post(secured_api, "sum", list(a = 2, b = 2))
+#> Response [https://colorado.rstudio.com/rsc/callthat/testapi/sum]
+#>   Date: 2021-05-23 16:14
+#>   Status: 200
+#>   Content-Type: application/json
+#>   Size: 2 B
 ```
 
 ### Generic connection
@@ -144,7 +131,7 @@ generic_api
 ``` r
 callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
 #> Response [http://httpbin.org/post]
-#>   Date: 2021-05-23 15:47
+#>   Date: 2021-05-23 16:14
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 472 B
@@ -159,38 +146,4 @@ callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
 #>     "Content-Length": "13", 
 #>     "Host": "httpbin.org", 
 #> ...
-```
-
-``` r
-remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
-
-remote_api
-#> Connection to API located in: https://colorado.rstudio.com/rsc/access-to-care/api
-```
-
-``` r
-la_summary <- callthat_api_get(remote_api, "summary", list("state" = "LA"))
-
-httr::content(la_summary)
-#> [[1]]
-#> [[1]]$state
-#> [1] "LA"
-#> 
-#> [[1]]$hospitals
-#> [1] 90
-#> 
-#> [[1]]$population
-#> [1] 4670724
-#> 
-#> [[1]]$under
-#> [1] 1
-#> 
-#> [[1]]$counties
-#> [1] 64
-#> 
-#> [[1]]$state_id
-#> [1] 19
-#> 
-#> [[1]]$full
-#> [1] "Louisiana"
 ```

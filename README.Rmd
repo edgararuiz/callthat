@@ -31,12 +31,6 @@ devtools::install_github("edgararuiz/callthat")
 
 ## Usage
 
-```{r}
-library(magrittr)
-library(httr)
-```
-
-
 ### Local
 
 ```{r}
@@ -48,22 +42,32 @@ my_api <- callthat_plumber_start()
 
 
 ```{r}
-my_api %>% 
-  callthat_api_get("data") 
+callthat_api_get(my_api, "data") 
 ```
 
+### Using inside `testthat`
+
+```{r}
+library(testthat)
+library(httr)
+
+test_that("data endpoint works", {
+  test_api <- callthat_plumber_start(port = 9999)
+  get_data <- callthat_api_get(test_api, "data") 
+  # Test that the request was sucessfull
+  expect_equal(get_data$status_code, 200)
+  # Confirm that the content of the response is as expected 
+  expect_equal(names(content(get_data)[[1]])[1], "mpg")
+  callthat_plumber_stop(test_api)
+})
+
+
+```
 
 
 ```{r}
-my_api %>% 
-  callthat_api_get("predict", query = list(weight = 2)) 
+callthat_api_put(my_api, "predict", body = list(weight = 2))
 ```
-
-```{r}
-my_api %>% 
-  callthat_api_post("predict", body = list(weight = 2)) 
-```
-
 
 ### RStudio Connect
 
@@ -74,9 +78,7 @@ rsc_api
 ```
 
 ```{r}
-rsc_api %>% 
-  callthat_api_get("summary", list("state" = "CA")) %>% 
-  content()
+callthat_api_get(rsc_api, "summary", list("state" = "CA")) 
 ```
 
 ### Secured API inside RStudio Connect 
@@ -93,8 +95,7 @@ callthat_api_get(secured_api, "data")
 ```
 
 ```{r}
-callthat_api_post(secured_api, "sum", list(a = 2, b = 2)) %>% 
-  content("parsed")
+callthat_api_post(secured_api, "sum", list(a = 2, b = 2))
 ```
 
 
@@ -110,17 +111,4 @@ generic_api
 callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
 ```
 
-
-```{r}
-remote_api <- callthat_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
-
-remote_api
-```
-
-
-```{r}
-la_summary <- callthat_api_get(remote_api, "summary", list("state" = "LA"))
-
-httr::content(la_summary)
-```
 

@@ -10,7 +10,7 @@ callthat_api_post.callthat_connection <- function(api_connection, endpoint, body
   callthat_api(
     api_connection = api_connection,
     endpoint = endpoint,
-    request = query,
+    request = body,
     header = headers,
     action = "POST",
     ...
