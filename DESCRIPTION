@@ -10,7 +10,7 @@ Authors@R:
 Description: Enables testing the actual plumber API endpoints within the testthat
     package framework. The main goal is allow automated tests run against the
     package within its CI/CD integration (such as GitHub Actions).  
-License: MIT
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
@@ -19,7 +19,8 @@ Imports:
   plumber,
   httr,
   callr,
-  rlang
+  rlang,
+  methods
 Suggests: 
     covr,
     testthat (>= 3.0.0)

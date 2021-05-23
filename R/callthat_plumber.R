@@ -11,9 +11,15 @@ callthat_plumber_connection <- function(port, host, r_session, docs) {
 
 setOldClass("callthat_plumber_connection")
 
+#' Confirm if a local plumber app is running
+#' @details It returns a TRUE/FALSE based on if the R session that is running the
+#' plumber API is running.
+#' @param api_connection A callthat_connection object
+#' @param ... Available to allow backwards compatability in case more arguments are implemented in later versions of this package. Not in use today.
+#' @seealso callthat_plumber_start
 #' @export
-callthat_plumber_running <- function(x, ...) {
-  if (x$r_session$is_alive()) {
+callthat_plumber_running <- function(api_connection, ...) {
+  if (api_connection$r_session$is_alive()) {
     TRUE
   } else {
     FALSE
@@ -36,12 +42,19 @@ print.callthat_plumber_connection <- function(x, ...) {
   invisible(x)
 }
 
+#' Runs a plumber app in a separate R session
+#' @param api_file API's file name
+#' @param host URL for the API's host. Defaults to 127.0.0.1
+#' @param port The port number to run the API at. Defaults to 6556.
+#' @param root_folder The API source file root folder. Defaults to the location of this packages sample API.
+#' @param docs Flag that indicates wether to start the Swagger page for the app.  Defaults to TRUE.
+#' @return An \code{httr} \code{request} object
 #' @export
 callthat_plumber_start <- function(api_file = "plumber.R",
-                                 host = "http://127.0.0.1",
-                                 port = 6556,
-                                 root_folder = system.file("plumber/sample-api", package = "callthat"),
-                                 docs = TRUE
+                                   host = "http://127.0.0.1",
+                                   port = 6556,
+                                   root_folder = system.file("plumber/sample-api", package = "callthat"),
+                                   docs = TRUE
                                  ) {
   if(root_folder == system.file("plumber/sample-api", package = "callthat") &&
      api_file == "plumber.R") {
@@ -63,7 +76,10 @@ callthat_plumber_start <- function(api_file = "plumber.R",
   )
 }
 
+#' Stops a local plumber API
+#' @details It stops the R session that is running a local API.
+#' @param api_connection A callthat_connection object
 #' @export
-callthat_plumber_stop <- function(x) {
-  x$r_session$close(grace = 0)
+callthat_plumber_stop <- function(api_connection) {
+  api_connection$r_session$close(grace = 0)
 }

@@ -1,3 +1,14 @@
+#' Generic function to make API calls
+#' @details It provides a single interface to perform the different calls to an API, such as GET or
+#' POST.  This function is meant to be used by developers who which to extend \code{callthat} to
+#' integrate with other API server types.
+#'
+#' @param api_connection A \code{callthat_connection} object.
+#' @param endpoint A character variable with containing the endpoint's name.
+#' @param request The body or query sent to the REST API.
+#' @param headers A \code{list} object containing a named list of headers to pass to the API.
+#' @param action The action to request from the API. Supported today are: GET, POST and PUT.
+#' @param ... Other arguments to pass to the REST API call.
 #' @export
 callthat_api <- function(api_connection, endpoint, request = NULL,
                          headers = list(), action = c("GET", "POST", "PUT"), ...) {
@@ -11,7 +22,7 @@ callthat_api.callthat_connection <- function(api_connection, endpoint, request =
     api_connection = api_connection,
     endpoint = endpoint,
     request = request,
-    header = headers,
+    headers = headers,
     action = action,
     ...
   )
@@ -27,7 +38,7 @@ callthat_api.callthat_rsc_connection <- function(api_connection, endpoint, reque
     api_connection = api_connection,
     endpoint = endpoint,
     request = request,
-    header = headers,
+    headers = headers,
     action = action,
     ...
   )
