@@ -33,6 +33,11 @@ callthat_api.callthat_rsc_connection <- function(api_connection, endpoint, reque
   )
 }
 
+#' @export
+callthat_api.default <- function(...) {
+  stop("No valid API connection object was passed to this function")
+}
+
 api_call <- function(api_connection, endpoint, request = NULL,
                      headers = list(), action = c("GET", "POST", "PUT"), ...) {
   url_path <- paste0(api_connection$url, "/",  endpoint)

@@ -16,8 +16,3 @@ callthat_api_put.callthat_connection <- function(api_connection, endpoint, body 
     ...
   )
 }
-
-#' @export
-callthat_api_put.default <- function(...) {
-  stop("No valid API connection object was passed to this function")
-}
