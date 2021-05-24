@@ -1,6 +1,6 @@
 Package: callthat
 Title: Test plumber APIs inside an R package
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: 
     person(given = "Edgar",
            family = "Ruiz",

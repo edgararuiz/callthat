@@ -36,7 +36,7 @@ devtools::install_github("edgararuiz/callthat")
 ``` r
 library(callthat)
 
-my_api <- callthat_plumber_start()
+my_api <- call_that_plumber_start()
 #> 
 #> Starting callthat's sample API
 
@@ -46,7 +46,7 @@ my_api
 ```
 
 ``` r
-callthat_api_get(my_api, "data") 
+call_that_api_get(my_api, "data") 
 #> Response [http://127.0.0.1:6556/data]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
@@ -55,7 +55,7 @@ callthat_api_get(my_api, "data")
 ```
 
 ``` r
-callthat_api_put(my_api, "predict", body = list(weight = 2), encode = "json") 
+call_that_api_put(my_api, "predict", body = list(weight = 2), encode = "json") 
 #> Response [http://127.0.0.1:6556/predict]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
@@ -64,7 +64,7 @@ callthat_api_put(my_api, "predict", body = list(weight = 2), encode = "json")
 ```
 
 ``` r
-callthat_api_post(my_api, "predict", body = list(weight = 2), encode = "json") 
+call_that_api_post(my_api, "predict", body = list(weight = 2), encode = "json") 
 #> Response [http://127.0.0.1:6556/predict]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
@@ -79,20 +79,20 @@ library(testthat)
 library(httr)
 
 test_that("data endpoint works", {
-  test_api <- callthat_plumber_start(port = 9999)
-  get_data <- callthat_api_get(test_api, "data") 
+  test_api <- call_that_plumber_start(port = 9999)
+  get_data <- call_that_api_get(test_api, "data") 
   # Test that the request was sucessfull
   expect_equal(get_data$status_code, 200)
   # Confirm that the content of the response is as expected 
   expect_equal(names(content(get_data)[[1]])[1], "mpg")
-  callthat_plumber_stop(test_api)
+  call_that_plumber_stop(test_api)
 })
 ```
 
 ### RStudio Connect
 
 ``` r
-rsc_api <- callthat_rsc_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
+rsc_api <- call_that_rsc_connection("https://colorado.rstudio.com/rsc/access-to-care/api")
 
 rsc_api
 #> RStudio Connect API:  https://colorado.rstudio.com/rsc/access-to-care/api
@@ -100,7 +100,7 @@ rsc_api
 ```
 
 ``` r
-callthat_api_get(rsc_api, "summary", list("state" = "CA")) 
+call_that_api_get(rsc_api, "summary", list("state" = "CA")) 
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
@@ -111,7 +111,7 @@ callthat_api_get(rsc_api, "summary", list("state" = "CA"))
 ### Secured API inside RStudio Connect
 
 ``` r
-secured_api <- callthat_rsc_connection(url = "https://colorado.rstudio.com/rsc/callthat/testapi",
+secured_api <- call_that_rsc_connection(url = "https://colorado.rstudio.com/rsc/callthat/testapi",
                                        key = Sys.getenv("CONNECT_API_KEY"))
 
 secured_api
@@ -120,7 +120,7 @@ secured_api
 ```
 
 ``` r
-callthat_api_get(secured_api, "data") 
+call_that_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
@@ -129,7 +129,7 @@ callthat_api_get(secured_api, "data")
 ```
 
 ``` r
-callthat_api_post(secured_api, "sum", list(a = 2, b = 2), encode = "json")
+call_that_api_post(secured_api, "sum", list(a = 2, b = 2), encode = "json")
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/sum]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
@@ -140,14 +140,14 @@ callthat_api_post(secured_api, "sum", list(a = 2, b = 2), encode = "json")
 ### Generic connection
 
 ``` r
-generic_api <- callthat_connection("http://httpbin.org")
+generic_api <- call_that_connection("http://httpbin.org")
 
 generic_api
 #> Connection to API located in: http://httpbin.org
 ```
 
 ``` r
-callthat_api_post(generic_api, endpoint = "post", body = "A simple text")
+call_that_api_post(generic_api, endpoint = "post", body = "A simple text")
 #> Response [http://httpbin.org/post]
 #>   Date: 2021-05-24 14:18
 #>   Status: 200
