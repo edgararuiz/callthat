@@ -16,8 +16,9 @@ knitr::opts_chunk$set(
 # callthat
 
 <!-- badges: start -->
-[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+[![R-CMD-check](https://github.com/edgararuiz/callthat/workflows/R-CMD-check/badge.svg)](https://github.com/edgararuiz/callthat/actions)
 [![Codecov test coverage](https://codecov.io/gh/edgararuiz/callthat/branch/master/graph/badge.svg)](https://codecov.io/gh/edgararuiz/callthat?branch=master)
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 <!-- badges: end -->
 
 `callthat` is meant for `plumber` API developers who plan to distribute their APIs inside an R package.  This package enables the testing of the API's endpoints within the `testthat` framework.  This allows the R Checks to also confirm that the endpoints still behave as expected.  The ultimate goal of `callthat` is to ensure for the package's automated testing confirms that the APIs still work even if the developer did not run the package's test locally.
@@ -49,7 +50,7 @@ callthat_api_get(my_api, "data")
 
 ### Using inside `testthat`
 
-```{r}
+```{r, eval = FALSE}
 library(testthat)
 library(httr)
 
