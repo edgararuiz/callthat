@@ -60,6 +60,7 @@ call_that_plumber_start <- function(api_file = "plumber.R",
     cat("\nStarting callthat's sample API")
   }
   api_path <- paste(root_folder, api_file, sep = "/")
+  r_safe(function(x) {})
   rs <- r_session$new()
   rs$call(function(ap, prt, docs) {
     ar <- plumber::plumb(ap)
