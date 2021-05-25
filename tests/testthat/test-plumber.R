@@ -1,6 +1,8 @@
 test_that("plumber API starts and stops", {
 
-  test_api <- call_that_plumber_start()
+  test_api <- call_that_plumber_start(
+    system.file("plumber/sample-api", package = "callthat")
+  )
 
   expect_s3_class(test_api, "call_that_plumber_connection")
 

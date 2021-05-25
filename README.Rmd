@@ -39,7 +39,9 @@ devtools::install_github("edgararuiz/callthat")
 ```{r}
 library(callthat)
 
-my_api <- call_that_plumber_start()
+my_api <- call_that_plumber_start(
+    system.file("plumber/sample-api", package = "callthat")
+  )
 
 my_api
 ```

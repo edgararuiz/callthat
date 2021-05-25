@@ -43,23 +43,25 @@ print.call_that_plumber_connection <- function(x, ...) {
 }
 
 #' Runs a plumber app in a separate R session
+#' @param api_folder The API source file root folder.
 #' @param api_file API's file name
 #' @param host URL for the API's host. Defaults to 127.0.0.1
 #' @param port The port number to run the API at. Defaults to 6556.
-#' @param root_folder The API source file root folder. Defaults to the location of this packages sample API.
 #' @param docs Flag that indicates wether to start the Swagger page for the app.  Defaults to TRUE.
 #' @return An \code{httr} \code{request} object
 #' @export
-call_that_plumber_start <- function(api_file = "plumber.R",
-                                    host = "http://127.0.0.1",
+call_that_plumber_start <- function(api_folder = NULL,
                                     port = 6556,
-                                    root_folder = system.file("plumber/sample-api", package = "callthat"),
-                                    docs = TRUE) {
-  if (root_folder == system.file("plumber/sample-api", package = "callthat") &&
-    api_file == "plumber.R") {
-    cat("\nStarting callthat's sample API")
-  }
-  api_path <- paste(root_folder, api_file, sep = "/")
+                                    docs = TRUE,
+                                    api_file = "plumber.R",
+                                    host = "http://127.0.0.1"
+                                    ) {
+  if(is.null(api_folder)) stop("No API folder location passed")
+
+  api_path <- path(api_folder, api_file)
+
+  if(!file_exists(api_path)) stop(paste0("Invalid plumber file path"))
+
   r_safe(function(x) {})
   rs <- r_session$new()
   rs$call(function(ap, prt, docs) {

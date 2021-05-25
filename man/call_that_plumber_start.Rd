@@ -5,23 +5,23 @@
 \title{Runs a plumber app in a separate R session}
 \usage{
 call_that_plumber_start(
-  api_file = "plumber.R",
-  host = "http://127.0.0.1",
+  api_folder = NULL,
   port = 6556,
-  root_folder = system.file("plumber/sample-api", package = "callthat"),
-  docs = TRUE
+  docs = TRUE,
+  api_file = "plumber.R",
+  host = "http://127.0.0.1"
 )
 }
 \arguments{
-\item{api_file}{API's file name}
-
-\item{host}{URL for the API's host. Defaults to 127.0.0.1}
+\item{api_folder}{The API source file root folder.}
 
 \item{port}{The port number to run the API at. Defaults to 6556.}
 
-\item{root_folder}{The API source file root folder. Defaults to the location of this packages sample API.}
-
 \item{docs}{Flag that indicates wether to start the Swagger page for the app.  Defaults to TRUE.}
+
+\item{api_file}{API's file name}
+
+\item{host}{URL for the API's host. Defaults to 127.0.0.1}
 }
 \value{
 An \code{httr} \code{request} object

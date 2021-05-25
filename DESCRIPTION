@@ -1,6 +1,6 @@
 Package: callthat
 Title: Test plumber APIs inside an R package
-Version: 0.0.0.9003
+Version: 0.0.0.9004
 Authors@R: 
     person(given = "Edgar",
            family = "Ruiz",
@@ -20,7 +20,8 @@ Imports:
   httr,
   callr,
   rlang,
-  methods
+  methods,
+  fs
 Suggests: 
     covr,
     testthat (>= 3.0.0)

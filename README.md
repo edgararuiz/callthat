@@ -36,19 +36,19 @@ devtools::install_github("edgararuiz/callthat")
 ``` r
 library(callthat)
 
-my_api <- call_that_plumber_start()
-#> 
-#> Starting callthat's sample API
+my_api <- call_that_plumber_start(
+    system.file("plumber/sample-api", package = "callthat")
+  )
 
 my_api
-#> API is running on http://127.0.0.1:6556 inside an R session on PID 1868
+#> API is running on http://127.0.0.1:6556 inside an R session on PID 28826
 #> Swagger page: http://127.0.0.1:6556/__docs__/
 ```
 
 ``` r
 call_that_api_get(my_api, "data") 
 #> Response [http://127.0.0.1:6556/data]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -57,7 +57,7 @@ call_that_api_get(my_api, "data")
 ``` r
 call_that_api_put(my_api, "predict", body = list(weight = 2), encode = "json") 
 #> Response [http://127.0.0.1:6556/predict]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 9 B
@@ -66,7 +66,7 @@ call_that_api_put(my_api, "predict", body = list(weight = 2), encode = "json")
 ``` r
 call_that_api_post(my_api, "predict", body = list(weight = 2), encode = "json") 
 #> Response [http://127.0.0.1:6556/predict]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 9 B
@@ -102,7 +102,7 @@ rsc_api
 ``` r
 call_that_api_get(rsc_api, "summary", list("state" = "CA")) 
 #> Response [https://colorado.rstudio.com/rsc/access-to-care/api/summary?state=CA]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 111 B
@@ -122,7 +122,7 @@ secured_api
 ``` r
 call_that_api_get(secured_api, "data") 
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/data]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 4.15 kB
@@ -131,7 +131,7 @@ call_that_api_get(secured_api, "data")
 ``` r
 call_that_api_post(secured_api, "sum", list(a = 2, b = 2), encode = "json")
 #> Response [https://colorado.rstudio.com/rsc/callthat/testapi/sum]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 3 B
@@ -149,7 +149,7 @@ generic_api
 ``` r
 call_that_api_post(generic_api, endpoint = "post", body = "A simple text")
 #> Response [http://httpbin.org/post]
-#>   Date: 2021-05-24 14:18
+#>   Date: 2021-05-25 21:13
 #>   Status: 200
 #>   Content-Type: application/json
 #>   Size: 472 B
