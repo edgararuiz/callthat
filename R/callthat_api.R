@@ -48,9 +48,17 @@ api_call <- function(api_connection, endpoint, request = NULL,
                      headers = list(), action = c("GET", "POST", "PUT"), ...) {
   url_path <- paste0(api_connection$url, "/", endpoint)
   header_obj <- do.call(add_headers, headers)
-  rest <- NULL
-  if (action == "GET") res <- GET(url = url_path, query = request, header_obj, ...)
-  if (action == "PUT") res <- PUT(url = url_path, body = request, header_obj, ...)
-  if (action == "POST") res <- POST(url = url_path, body = request, header_obj, ...)
-  res
+
+  r_safe(function(x) {})
+  r_safe(function(url_path, request, header_obj, action, ...) {
+    if (action == "GET") res <- httr::GET(url = url_path, query = request, header_obj, ...)
+    if (action == "POST") res <- httr::POST(url = url_path, body = request, header_obj, ...)
+    if (action == "PUT") res <- httr::PUT(url = url_path, body = request, header_obj, ...)
+    res
+  },
+  args = list(
+    url_path = url_path, request = request,
+    header_obj = header_obj, action = action,
+    ... = ...
+  ))
 }
