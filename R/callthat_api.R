@@ -60,5 +60,6 @@ api_call <- function(api_connection, endpoint, request = NULL,
     url_path = url_path, request = request,
     header_obj = header_obj, action = action,
     ... = ...
-  ))
+  )
+  )
 }

@@ -41,26 +41,25 @@ call_that_plumber_start <- function(api_folder = NULL,
                                     docs = TRUE,
                                     api_file = "plumber.R",
                                     host = "http://127.0.0.1",
-                                    check_delay = 1
-                                    ) {
-  if(is.null(api_folder)) stop("No API folder location passed")
+                                    check_delay = 1) {
+  if (is.null(api_folder)) stop("No API folder location passed")
 
   api_path <- path(api_folder, api_file)
 
-  if(!file_exists(api_path)) stop(paste0("Invalid plumber file path"))
+  if (!file_exists(api_path)) stop(paste0("Invalid plumber file path"))
 
   r_safe(function(x) {})
   rs <- r_session$new()
   error_file <- tempfile()
   rs$call(function(ap, prt, docs, ef) {
-    try(plumber::pr_run(pr = plumber::pr(ap), port = prt,docs = docs), outFile = ef)
+    try(plumber::pr_run(pr = plumber::pr(ap), port = prt, docs = docs), outFile = ef)
   },
   args = list(ap = api_path, prt = port, docs = docs, ef = error_file)
   )
   Sys.sleep(check_delay)
-  if(file_exists(error_file)) {
+  if (file_exists(error_file)) {
     rs$close()
-    stop(paste0("----->>>> ", readLines(error_file)))
+    stop(paste0("\n----->>>> ", readLines(error_file)))
   }
   call_that_plumber_connection(
     host = host,
