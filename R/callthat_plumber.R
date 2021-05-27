@@ -69,11 +69,7 @@ call_that_plumber_start <- function(api_folder = NULL,
   error_file <- tempfile()
   rs$call(function(ap, prt, docs, ef) {
     try(
-      plumber::pr_run(
-        pr = plumber::pr(ap),
-        port = prt,
-        docs = docs
-     ),
+      plumber::pr_run(pr = plumber::pr(ap), port = prt,docs = docs),
       outFile = ef
       )
   },

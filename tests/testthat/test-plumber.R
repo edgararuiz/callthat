@@ -27,3 +27,8 @@ test_that("plumber API starts and stops", {
 
   expect_false(call_that_plumber_running(test_api))
 })
+
+test_that("Exceptions work", {
+  expect_error(call_that_plumber_start())
+  expect_error(call_that_plumber_start("notarealpath.R"))
+})
