@@ -11,24 +11,9 @@ call_that_plumber_connection <- function(port, host, r_session, docs) {
 
 setOldClass("call_that_plumber_connection")
 
-#' Confirm if a local plumber app is running
-#' @details It returns a TRUE/FALSE based on if the R session that is running the
-#' plumber API is running.
-#' @param api_connection A call_that_connection object
-#' @param ... Available to allow backwards compatability in case more arguments are implemented in later versions of this package. Not in use today.
-#' @seealso call_that_plumber_start
-#' @export
-call_that_plumber_running <- function(api_connection, ...) {
-  if (api_connection$r_session$is_alive()) {
-    TRUE
-  } else {
-    FALSE
-  }
-}
-
 #' @export
 print.call_that_plumber_connection <- function(x, ...) {
-  if (call_that_plumber_running(x)) {
+  if (x$r_session$is_alive()) {
     docs_msg <- NULL
     if (x$docs) docs_msg <- paste0("\nSwagger page: ", x$url, "/__docs__/")
     cat(paste0(
@@ -68,18 +53,14 @@ call_that_plumber_start <- function(api_folder = NULL,
   rs <- r_session$new()
   error_file <- tempfile()
   rs$call(function(ap, prt, docs, ef) {
-    try(
-      plumber::pr_run(pr = plumber::pr(ap), port = prt,docs = docs),
-      outFile = ef
-      )
+    try(plumber::pr_run(pr = plumber::pr(ap), port = prt,docs = docs), outFile = ef)
   },
   args = list(ap = api_path, prt = port, docs = docs, ef = error_file)
   )
   Sys.sleep(check_delay)
   if(file_exists(error_file)) {
-    error_output <- readLines(error_file)
     rs$close()
-    stop(paste0("----->>>> ", error_output))
+    stop(paste0("----->>>> ", readLines(error_file)))
   }
   call_that_plumber_connection(
     host = host,

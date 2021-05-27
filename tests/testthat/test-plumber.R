@@ -11,8 +11,6 @@ test_that("plumber API starts and stops", {
     "API is running"
   )
 
-  expect_true(call_that_plumber_running(test_api))
-
   expect_s3_class(
     call_that_api_get(test_api, "data"),
     "response"
@@ -25,7 +23,6 @@ test_that("plumber API starts and stops", {
     "API is not running"
   )
 
-  expect_false(call_that_plumber_running(test_api))
 })
 
 test_that("Exceptions work", {
