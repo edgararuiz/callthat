@@ -64,12 +64,25 @@ call_that_plumber_start <- function(api_folder = NULL,
 
   r_safe(function(x) {})
   rs <- r_session$new()
-  rs$call(function(ap, prt, docs) {
-    ar <- plumber::plumb(ap)
-    plumber::pr_run(ar, port = prt, docs = docs)
+  error_file <- tempfile()
+  rs$call(function(ap, prt, docs, ef) {
+    try(
+      plumber::pr_run(
+        pr = plumber::pr(ap),
+        port = prt,
+        docs = docs
+     ),
+      outFile = ef
+      )
   },
-  args = list(ap = api_path, prt = port, docs = docs)
+  args = list(ap = api_path, prt = port, docs = docs, ef = error_file)
   )
+  Sys.sleep(1)
+  if(file_exists(error_file)) {
+    error_output <- readLines(error_file)
+    rs$close()
+    stop(paste0("----->>>> ", error_output))
+  }
   call_that_plumber_connection(
     host = host,
     port = port,
