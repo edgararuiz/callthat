@@ -9,7 +9,8 @@ call_that_plumber_start(
   port = 6556,
   docs = TRUE,
   api_file = "plumber.R",
-  host = "http://127.0.0.1"
+  host = "http://127.0.0.1",
+  check_delay = 1
 )
 }
 \arguments{
@@ -17,11 +18,13 @@ call_that_plumber_start(
 
 \item{port}{The port number to run the API at. Defaults to 6556.}
 
-\item{docs}{Flag that indicates wether to start the Swagger page for the app.  Defaults to TRUE.}
+\item{docs}{Flag that indicates whether to start the Swagger page for the app.  Defaults to TRUE.}
 
 \item{api_file}{API's file name}
 
 \item{host}{URL for the API's host. Defaults to 127.0.0.1}
+
+\item{check_delay}{Number of seconds to wait before making sure the app is running. Defaults to 1.}
 }
 \value{
 An \code{httr} \code{request} object

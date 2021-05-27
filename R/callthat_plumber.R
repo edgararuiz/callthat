@@ -47,14 +47,16 @@ print.call_that_plumber_connection <- function(x, ...) {
 #' @param api_file API's file name
 #' @param host URL for the API's host. Defaults to 127.0.0.1
 #' @param port The port number to run the API at. Defaults to 6556.
-#' @param docs Flag that indicates wether to start the Swagger page for the app.  Defaults to TRUE.
+#' @param docs Flag that indicates whether to start the Swagger page for the app.  Defaults to TRUE.
+#' @param check_delay Number of seconds to wait before making sure the app is running. Defaults to 1.
 #' @return An \code{httr} \code{request} object
 #' @export
 call_that_plumber_start <- function(api_folder = NULL,
                                     port = 6556,
                                     docs = TRUE,
                                     api_file = "plumber.R",
-                                    host = "http://127.0.0.1"
+                                    host = "http://127.0.0.1",
+                                    check_delay = 1
                                     ) {
   if(is.null(api_folder)) stop("No API folder location passed")
 
@@ -77,7 +79,7 @@ call_that_plumber_start <- function(api_folder = NULL,
   },
   args = list(ap = api_path, prt = port, docs = docs, ef = error_file)
   )
-  Sys.sleep(1)
+  Sys.sleep(check_delay)
   if(file_exists(error_file)) {
     error_output <- readLines(error_file)
     rs$close()
