@@ -12,6 +12,14 @@ callthat_session_get <- function() {
   callthat_session_context$current_environment
 }
 
+#' Allows to switch between running tests locally or remotely
+#' @details The purpose is to allow running the exact same tests locally, and
+#' after the API is published.
+#' @param local_connection A \code{call_that_connection} object. This will be the
+#' default connections to be used for tests
+#' @param remote_connection A \code{call_that_connection} object. This will be the
+#' connections used when running the tests remotely.
+#' @seealso call_that_session_stop
 #' @export
 call_that_session_start <- function(local_connection, remote_connection) {
   current_session <- callthat_session_get()
@@ -20,6 +28,11 @@ call_that_session_start <- function(local_connection, remote_connection) {
   if(current_session == "local") return(local_connection)
 }
 
+#' Stops an API connection
+#' @details Use this function at the end of the tests to make sure the connection
+#' is closed.  It is meant to make sure the R session running the local API is
+#' stopped.
+#' @param api_connection A \code{call_that_connection} object.
 #' @export
 call_that_session_stop <- function(api_connection) {
   UseMethod("call_that_session_stop")
