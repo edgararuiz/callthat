@@ -4,14 +4,14 @@
 \alias{call_that_session_start}
 \title{Allows to switch between running tests locally or remotely}
 \usage{
-call_that_session_start(local_connection, remote_connection)
+call_that_session_start(local_connection, remote_connection = NULL)
 }
 \arguments{
 \item{local_connection}{A \code{call_that_connection} object. This will be the
 default connections to be used for tests}
 
 \item{remote_connection}{A \code{call_that_connection} object. This will be the
-connections used when running the tests remotely.}
+connections used when running the tests remotely. Defaults to NULL.}
 }
 \description{
 Allows to switch between running tests locally or remotely
