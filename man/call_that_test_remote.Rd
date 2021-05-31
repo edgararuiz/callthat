@@ -4,12 +4,19 @@
 \alias{call_that_test_remote}
 \title{Runs a test script against a remote connection}
 \usage{
-call_that_test_remote(api_name = NULL, api_connection = NULL)
+call_that_test_remote(
+  api_name = NULL,
+  api_connection = NULL,
+  testthat_reporter = testthat::ProgressReporter
+)
 }
 \arguments{
 \item{api_name}{Character vector with the name of the API}
 
-\item{api_connection}{Optional argument.  A \code{call_that_connection} object.
+\item{api_connection}{Optional argument.  A \code{call_that_connection} object.}
+
+\item{testthat_reporter}{Optional argument. The reporter to use when running
+the test script.  Defaults to \code{testthat::ProgressReporter}
 If none is passed, the pre-set remote connection set at the test script level
 will be used.}
 }

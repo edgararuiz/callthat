@@ -12,8 +12,16 @@ callthat_session_get <- function() {
   callthat_session_context$current_environment
 }
 
-callthat_session_connection <- function(api_connection) {
+callthat_session_connection_set <- function(api_connection) {
   callthat_session_context$connection <- api_connection
+}
+
+callthat_session_connection_get <- function() {
+  callthat_session_context$connection
+}
+
+callthat_session_connection_reset <- function(api_connection) {
+  callthat_session_context$connection <- NULL
 }
 
 #' Allows to switch between running tests locally or remotely
@@ -26,13 +34,24 @@ callthat_session_connection <- function(api_connection) {
 #' @seealso call_that_session_stop
 #' @export
 call_that_session_start <- function(local_connection, remote_connection = NULL) {
+
+  ret_conn <- NULL
   current_session <- callthat_session_get()
+
   if(is.null(current_session)) current_session <- "local"
+
   if(current_session == "remote") {
-    if(is.null(remote_connection)) stop("No default remote connection is available")
-    return(remote_connection)
+    if(!is.null(callthat_session_connection_get())) {
+      ret_conn <- callthat_session_connection_get()
+    } else {
+      if(is.null(remote_connection)) stop("No default remote connection is available")
+      ret_conn <- remote_connection
+    }
   }
-  if(current_session == "local") return(local_connection)
+
+  if(current_session == "local") ret_conn <- local_connection
+
+  ret_conn
 }
 
 #' Stops an API connection
@@ -102,10 +121,15 @@ call_that_available_tests <- function(test_directory = "tests/testthat", plumber
 #' Runs a test script against a remote connection
 #' @param api_name Character vector with the name of the API
 #' @param api_connection Optional argument.  A \code{call_that_connection} object.
+#' @param testthat_reporter Optional argument. The reporter to use when running
+#' the test script.  Defaults to \code{testthat::ProgressReporter}
 #' If none is passed, the pre-set remote connection set at the test script level
 #' will be used.
 #' @export
-call_that_test_remote <- function(api_name = NULL, api_connection = NULL) {
+call_that_test_remote <- function(api_name = NULL,
+                                  api_connection = NULL,
+                                  testthat_reporter = testthat::ProgressReporter
+                                  ){
 
   avt <- call_that_available_tests()
 
@@ -119,7 +143,15 @@ call_that_test_remote <- function(api_name = NULL, api_connection = NULL) {
 
   callthat_session_set_remote()
 
-  test_file(test_path, reporter = testthat::ProgressReporter)
+  if(!is.null(api_connection)) {
+    callthat_session_connection_set(api_connection = api_connection)
+  }
+
+  test_file(test_path, reporter = testthat_reporter)
+
+  if(!is.null(api_connection)) {
+    callthat_session_connection_reset()
+  }
 
   callthat_session_context$current_environment <- prev_env
 }
