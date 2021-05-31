@@ -2,18 +2,23 @@
 % Please edit documentation in R/callthat_session.R
 \name{call_that_available_tests}
 \alias{call_that_available_tests}
-\title{Locates available tests in the package}
+\title{Matches APIs to tests}
 \usage{
-call_that_available_tests(test_directory = "tests/testthat")
+call_that_available_tests(
+  test_directory = "tests/testthat",
+  plumber_directory = "inst/plumber"
+)
 }
 \arguments{
-\item{test_directory}{Location of the test scripts}
+\item{test_directory}{Location of the test scripts. Defaults to 'test/testthat'.}
+
+\item{plumber_directory}{Location of the plumber APIs. Defaults to 'inst/plumber'.}
 }
 \description{
-Locates available tests in the package
+Matches APIs to tests
 }
 \details{
-It locates plumber tests inside the package.  It is meant to run
-against the package's source folders. It looks for file names with the prefix
-'test-plumber-...'.
+It looks for test scripts with the prefix 'test-plumber-...'. It
+matches the last part of the script's name and matches it to plumber API
+inside the 'inst/plumber' folder.
 }

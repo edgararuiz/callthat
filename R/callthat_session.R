@@ -53,14 +53,47 @@ call_that_session_stop.call_that_plumber_connection <- function(api_connection) 
 call_that_session_stop.default <- function(api_connection) {
 }
 
-#' Locates available tests in the package
-#' @details It locates plumber tests inside the package.  It is meant to run
-#' against the package's source folders. It looks for file names with the prefix
-#' 'test-plumber-...'.
-#' @param test_directory Location of the test scripts
+#' Matches APIs to tests
+#' @details It looks for test scripts with the prefix 'test-plumber-...'. It
+#' matches the last part of the script's name and matches it to plumber API
+#' inside the 'inst/plumber' folder.
+#' @param test_directory Location of the test scripts. Defaults to 'test/testthat'.
+#' @param plumber_directory Location of the plumber APIs. Defaults to 'inst/plumber'.
 #' @export
-call_that_available_tests <- function(test_directory = "tests/testthat") {
+call_that_available_tests <- function(test_directory = "tests/testthat", plumber_directory = "inst/plumber") {
   all_tests <- dir_ls(path(test_directory))
+
+  test_names <- path_file(all_tests)
+
+  first_part <- substr(test_names, 1, 13)
+
+  test_prefix <- "test-plumber-"
+
+  plumber_tests_path <- all_tests[first_part == test_prefix]
+
+  plumber_tests_1 <- test_names[first_part == test_prefix]
+
+  plumber_tests_2 <- substr(plumber_tests_1, 14, nchar(plumber_tests_1) - 2)
+
+  inst_plumber <- dir_ls(plumber_directory)
+
+  plumber_apis <- as.character(
+    lapply(strsplit(inst_plumber, "/"), function(x) x[[length(x)]])
+    )
+
+  ats <- lapply(
+    plumber_apis,
+    function(x) {
+      tp <- plumber_tests_path[x == plumber_apis]
+      tibble(
+        api = x,
+        api_path = path(plumber_directory, x),
+        test_exists = !is.na(tp),
+        test_path = tp
+      )
+    })
+
+  Reduce(rbind, ats)
 }
 
 
