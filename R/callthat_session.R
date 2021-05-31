@@ -28,7 +28,10 @@ callthat_session_connection <- function(api_connection) {
 call_that_session_start <- function(local_connection, remote_connection = NULL) {
   current_session <- callthat_session_get()
   if(is.null(current_session)) current_session <- "local"
-  if(current_session == "remote") return(remote_connection)
+  if(current_session == "remote") {
+    if(is.null(remote_connection)) stop("No default remote connection is available")
+    return(remote_connection)
+  }
   if(current_session == "local") return(local_connection)
 }
 
@@ -94,6 +97,31 @@ call_that_available_tests <- function(test_directory = "tests/testthat", plumber
     })
 
   Reduce(rbind, ats)
+}
+
+#' Runs a test script against a remote connection
+#' @param api_name Character vector with the name of the API
+#' @param api_connection Optional argument.  A \code{call_that_connection} object.
+#' If none is passed, the pre-set remote connection set at the test script level
+#' will be used.
+#' @export
+call_that_test_remote <- function(api_name = NULL, api_connection = NULL) {
+
+  avt <- call_that_available_tests()
+
+  mt <- avt[avt$api== api_name,]
+
+  if(nrow(mt) > 1) stop("Multiple test scripts found")
+
+  test_path <- mt$test_path
+
+  prev_env <- callthat_session_context$current_environment
+
+  callthat_session_set_remote()
+
+  test_file(test_path, reporter = testthat::ProgressReporter)
+
+  callthat_session_context$current_environment <- prev_env
 }
 
 

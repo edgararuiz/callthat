@@ -22,8 +22,8 @@ Imports:
   rlang,
   methods,
   fs,
-  tibble
+  tibble,
+  testthat (>= 3.0.0)
 Suggests: 
-    covr,
-    testthat (>= 3.0.0)
+  covr
 Config/testthat/edition: 3
