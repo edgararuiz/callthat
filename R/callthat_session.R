@@ -1,11 +1,12 @@
 callthat_session_context <- new.env(parent = emptyenv())
-
-callthat_session_set_local <- function() {
-  callthat_session_context$current_environment <- "local"
-}
+callthat_session_context$current_environment <- ""
 
 callthat_session_set_remote <- function() {
   callthat_session_context$current_environment <- "remote"
+}
+
+callthat_session_is_remote <- function() {
+  callthat_session_context$current_environment == "remote"
 }
 
 callthat_session_get <- function() {
@@ -36,20 +37,17 @@ callthat_session_connection_reset <- function(api_connection) {
 call_that_session_start <- function(local_connection, remote_connection = NULL) {
 
   ret_conn <- NULL
-  current_session <- callthat_session_get()
 
-  if(is.null(current_session)) current_session <- "local"
-
-  if(current_session == "remote") {
+  if(callthat_session_is_remote()) {
     if(!is.null(callthat_session_connection_get())) {
       ret_conn <- callthat_session_connection_get()
     } else {
       if(is.null(remote_connection)) stop("No default remote connection is available")
       ret_conn <- remote_connection
     }
+  } else {
+    ret_conn <- local_connection
   }
-
-  if(current_session == "local") ret_conn <- local_connection
 
   ret_conn
 }
@@ -82,7 +80,9 @@ call_that_session_stop.default <- function(api_connection) {
 #' @param test_directory Location of the test scripts. Defaults to 'test/testthat'.
 #' @param plumber_directory Location of the plumber APIs. Defaults to 'inst/plumber'.
 #' @export
-call_that_available_tests <- function(test_directory = "tests/testthat", plumber_directory = "inst/plumber") {
+call_that_available_tests <- function(test_directory = "tests/testthat",
+                                      plumber_directory = "inst/plumber"
+                                      ) {
   all_tests <- dir_ls(path(test_directory))
 
   test_names <- path_file(all_tests)
@@ -122,16 +122,23 @@ call_that_available_tests <- function(test_directory = "tests/testthat", plumber
 #' @param api_name Character vector with the name of the API
 #' @param api_connection Optional argument.  A \code{call_that_connection} object.
 #' @param testthat_reporter Optional argument. The reporter to use when running
+#' @param test_directory Location of the test scripts. Defaults to 'test/testthat'.
+#' @param plumber_directory Location of the plumber APIs. Defaults to 'inst/plumber'.
 #' the test script.  Defaults to \code{testthat::ProgressReporter}
 #' If none is passed, the pre-set remote connection set at the test script level
 #' will be used.
 #' @export
 call_that_test_remote <- function(api_name = NULL,
                                   api_connection = NULL,
-                                  testthat_reporter = testthat::ProgressReporter
+                                  testthat_reporter = testthat::ProgressReporter,
+                                  test_directory = "tests/testthat",
+                                  plumber_directory = "inst/plumber"
                                   ){
 
-  avt <- call_that_available_tests()
+  avt <- call_that_available_tests(
+    test_directory = test_directory,
+    plumber_directory = plumber_directory
+  )
 
   mt <- avt[avt$api== api_name,]
 
