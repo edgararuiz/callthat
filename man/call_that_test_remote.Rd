@@ -8,7 +8,7 @@ call_that_test_remote(
   api_name = NULL,
   api_connection = NULL,
   testthat_reporter = testthat::ProgressReporter,
-  test_directory = "tests/testthat",
+  test_directory = "tests/callthat",
   plumber_directory = "inst/plumber"
 )
 }
@@ -19,7 +19,7 @@ call_that_test_remote(
 
 \item{testthat_reporter}{Optional argument. The reporter to use when running}
 
-\item{test_directory}{Location of the test scripts. Defaults to 'test/testthat'.}
+\item{test_directory}{Location of the test scripts. Defaults to 'test/callthat'.}
 
 \item{plumber_directory}{Location of the plumber APIs. Defaults to 'inst/plumber'.
 the test script.  Defaults to \code{testthat::ProgressReporter}

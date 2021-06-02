@@ -5,12 +5,12 @@
 \title{Matches APIs to tests}
 \usage{
 call_that_available_tests(
-  test_directory = "tests/testthat",
+  test_directory = "tests/callthat",
   plumber_directory = "inst/plumber"
 )
 }
 \arguments{
-\item{test_directory}{Location of the test scripts. Defaults to 'test/testthat'.}
+\item{test_directory}{Location of the test scripts. Defaults to 'test/callthat'.}
 
 \item{plumber_directory}{Location of the plumber APIs. Defaults to 'inst/plumber'.}
 }
@@ -18,7 +18,7 @@ call_that_available_tests(
 Matches APIs to tests
 }
 \details{
-It looks for test scripts with the prefix 'test-plumber-...'. It
+It looks for test scripts with the prefix 'test-...'. It
 matches the last part of the script's name and matches it to plumber API
 inside the 'inst/plumber' folder.
 }

@@ -25,7 +25,6 @@ test_that("plumber API starts and stops", {
    "remote"
   )
 
-
   expect_silent(
     call_that_session_stop()
   )

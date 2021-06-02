@@ -74,28 +74,28 @@ call_that_session_stop.default <- function(api_connection) {
 }
 
 #' Matches APIs to tests
-#' @details It looks for test scripts with the prefix 'test-plumber-...'. It
+#' @details It looks for test scripts with the prefix 'test-...'. It
 #' matches the last part of the script's name and matches it to plumber API
 #' inside the 'inst/plumber' folder.
-#' @param test_directory Location of the test scripts. Defaults to 'test/testthat'.
+#' @param test_directory Location of the test scripts. Defaults to 'test/callthat'.
 #' @param plumber_directory Location of the plumber APIs. Defaults to 'inst/plumber'.
 #' @export
-call_that_available_tests <- function(test_directory = "tests/testthat",
+call_that_available_tests <- function(test_directory = "tests/callthat",
                                       plumber_directory = "inst/plumber"
                                       ) {
   all_tests <- dir_ls(path(test_directory))
 
   test_names <- path_file(all_tests)
 
-  first_part <- substr(test_names, 1, 13)
+  first_part <- substr(test_names, 1, 5)
 
-  test_prefix <- "test-plumber-"
+  test_prefix <- "test-"
 
   plumber_tests_path <- all_tests[first_part == test_prefix]
 
   plumber_tests_1 <- test_names[first_part == test_prefix]
 
-  plumber_tests_2 <- substr(plumber_tests_1, 14, nchar(plumber_tests_1) - 2)
+  plumber_tests_2 <- substr(plumber_tests_1, 7, nchar(plumber_tests_1) - 2)
 
   inst_plumber <- dir_ls(plumber_directory)
 
@@ -122,7 +122,7 @@ call_that_available_tests <- function(test_directory = "tests/testthat",
 #' @param api_name Character vector with the name of the API
 #' @param api_connection Optional argument.  A \code{call_that_connection} object.
 #' @param testthat_reporter Optional argument. The reporter to use when running
-#' @param test_directory Location of the test scripts. Defaults to 'test/testthat'.
+#' @param test_directory Location of the test scripts. Defaults to 'test/callthat'.
 #' @param plumber_directory Location of the plumber APIs. Defaults to 'inst/plumber'.
 #' the test script.  Defaults to \code{testthat::ProgressReporter}
 #' If none is passed, the pre-set remote connection set at the test script level
@@ -131,7 +131,7 @@ call_that_available_tests <- function(test_directory = "tests/testthat",
 call_that_test_remote <- function(api_name = NULL,
                                   api_connection = NULL,
                                   testthat_reporter = testthat::ProgressReporter,
-                                  test_directory = "tests/testthat",
+                                  test_directory = "tests/callthat",
                                   plumber_directory = "inst/plumber"
                                   ){
 
