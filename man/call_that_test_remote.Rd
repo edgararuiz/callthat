@@ -7,7 +7,9 @@
 call_that_test_remote(
   api_name = NULL,
   api_connection = NULL,
-  testthat_reporter = testthat::ProgressReporter
+  testthat_reporter = testthat::ProgressReporter,
+  test_directory = "tests/testthat",
+  plumber_directory = "inst/plumber"
 )
 }
 \arguments{
@@ -15,7 +17,11 @@ call_that_test_remote(
 
 \item{api_connection}{Optional argument.  A \code{call_that_connection} object.}
 
-\item{testthat_reporter}{Optional argument. The reporter to use when running
+\item{testthat_reporter}{Optional argument. The reporter to use when running}
+
+\item{test_directory}{Location of the test scripts. Defaults to 'test/testthat'.}
+
+\item{plumber_directory}{Location of the plumber APIs. Defaults to 'inst/plumber'.
 the test script.  Defaults to \code{testthat::ProgressReporter}
 If none is passed, the pre-set remote connection set at the test script level
 will be used.}

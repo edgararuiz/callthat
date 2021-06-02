@@ -1,8 +1,15 @@
 test_that("plumber API starts and stops", {
+
+  pkg_path <- system.file(package = "callthat")
+
   expect_silent(
-    test_api <- call_that_plumber_start(
-      system.file("plumber/sample-api", package = "callthat")
+    local_connection <- call_that_plumber_start(
+      paste0(pkg_path, "/plumber/sample-api")
     )
+  )
+
+  expect_silent(
+    test_api <- call_that_session_start(local_connection, local_connection)
   )
 
   expect_s3_class(
@@ -41,7 +48,7 @@ test_that("plumber API starts and stops", {
   )
 
   expect_silent(
-    call_that_plumber_stop(test_api)
+    call_that_session_stop(test_api)
   )
 
   expect_equal(
@@ -66,3 +73,6 @@ test_that("Exceptions work", {
     call_that_plumber_start("notarealpath.R")
   )
 })
+
+
+
