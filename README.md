@@ -153,7 +153,7 @@ call_that_test_remote("sample-api", published_api)
 ```
 
     #> ✓ |  OK F W S | Context
-    #> ⠏ |   0       | plumber-sample-api                                              ✓ |   5       | plumber-sample-api
+    #> ✓ |   5       | plumber-sample-api
     #> 
     #> ══ Results ═════════════════════════════════════════════════════════════════════
     #> [ FAIL 0 | WARN 0 | SKIP 0 | PASS 5 ]
