@@ -106,7 +106,8 @@ call_that_available_tests <- function(test_directory = "tests/testthat",
   ats <- lapply(
     plumber_apis,
     function(x) {
-      tp <- plumber_tests_path[x == plumber_apis]
+      tp <- plumber_tests_path[x == plumber_tests_2]
+      if(length(tp) == 0) tp <- NA
       tibble(
         api = x,
         api_path = path(plumber_directory, x),
