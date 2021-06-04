@@ -11,6 +11,8 @@ Description: Enables testing the actual plumber API endpoints within the testtha
     package framework. The main goal is allow automated tests run against the
     package within its CI/CD integration (such as GitHub Actions).  
 License: MIT + file LICENSE
+URL: https://edgararuiz.github.io/callthat/, https://github.com/edgararuiz/callthat
+BugReports: https://github.com/edgararuiz/callthat/issues
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)

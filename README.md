@@ -6,12 +6,12 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/edgararuiz/callthat/workflows/R-CMD-check/badge.svg)](https://github.com/edgararuiz/callthat/actions)
-[![Codecov test
-coverage](https://codecov.io/gh/edgararuiz/callthat/branch/master/graph/badge.svg)](https://codecov.io/gh/edgararuiz/callthat?branch=master)
 [![Lifecycle:
 experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/callthat)](https://CRAN.R-project.org/package=callthat)
+[![Codecov test
+coverage](https://codecov.io/gh/edgararuiz/callthat/branch/master/graph/badge.svg)](https://codecov.io/gh/edgararuiz/callthat?branch=master)
 <!-- badges: end -->
 
 `callthat` is meant for `plumber` API developers who plan to distribute

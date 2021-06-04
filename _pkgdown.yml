@@ -1,0 +1,20 @@
+reference:
+- title: Starts test session
+  contents:
+  - starts_with("call_that_session")
+- title: Interact with the API
+  contents:
+  - starts_with("call_that_api")
+- title: Run the API locally
+  contents:
+  - starts_with("call_that_plumber")
+- title: Remote API connections
+  contents:
+  - call_that_connection
+  - call_tat_rsc_connection
+- title: Run tests remotely
+  contents:
+  - call_that_test_remote
+- title: Manage tests
+  contents:
+  - call_that_available_tests
